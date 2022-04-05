@@ -3,6 +3,8 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 
+import searchRoutes from './routes/search.js'
+
 // To create the require function used in CommonJS for NodeJS
 import { createRequire } from "module"; 
 const require = createRequire(import.meta.url);
@@ -15,7 +17,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 // Routes
-
+app.use('/search', searchRoutes);
 
 // Database connection 
 const DATABASE_URL = `mongodb+srv://${username}:${password}@cluster0.qbmxu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`

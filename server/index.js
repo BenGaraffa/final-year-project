@@ -8,7 +8,7 @@ import searchRoutes from './routes/search.js'
 // To create the require function used in CommonJS for NodeJS
 import { createRequire } from "module"; 
 const require = createRequire(import.meta.url);
-const { username, password } = require("../mongoDBCredentials.json");
+const { username, password } = require("../database-credentials.json");
 
 // Initialise Express app
 const app = express();

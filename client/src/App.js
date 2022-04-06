@@ -1,10 +1,15 @@
 import React from "react";
+import { Container } from '@mui/material';
+
+import Films from './components/Films/Films';
+import SearchBar from './components/SearchBar/SearchBar'
 
 const App = () => {
     return (
-        <div>
-            <h1>Hello World</h1>
-        </div>
+        <>
+            <SearchBar />
+            <Films />
+        </>  
     );
 }
 

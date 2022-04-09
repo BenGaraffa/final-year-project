@@ -6,10 +6,22 @@ import Films from './components/Films/Films';
 import SearchBar from './components/SearchBar/SearchBar'
 import { getFilms } from './actions/films'
 
-const App = () => {
+const App = () => { 
+
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getFilms());
+        // replace with global filters
+        const options = {
+            country:            "us",
+            service:            "netflix",
+            type:               "movie",
+            genre:              "3",
+            page:               "1",
+            output_language:    "en",
+            language:           "en",
+            keyword:            "" 
+        };
+        dispatch(getFilms(options));
     }, [dispatch])
     
     return (

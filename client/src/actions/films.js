@@ -1,8 +1,8 @@
 import * as api from '../api';
 
-export const getFilms = () => async (dispatch) => {
+export const getFilms = (parameters={}) => async (dispatch) => {
     try {
-        const { data } = await api.getFilms();
+        const { data } = await api.getFilms(parameters);
         dispatch({
             type: 'FETCH_SEARCH',
             payload: data

@@ -7,6 +7,7 @@ class SearchBar extends React.Component {
         super(props);
         this.state = {value:''};
         this.changeHandle = this.changeHandle.bind(this);
+        this.onSubmit = props.onSubmit
         this.keyPress = this.keyPress.bind(this);
     }
 
@@ -18,7 +19,7 @@ class SearchBar extends React.Component {
     // Check if Enter was pressed and update the state
     keyPress(e) {
         if (e.key === "Enter") {
-            console.log('value', e.target.value);
+            this.onSubmit(e.target.value)
         }
     }
 
@@ -29,7 +30,8 @@ class SearchBar extends React.Component {
                 label="Search" 
                 variant="outlined" 
                 size="small"
-                fullWidth={true} 
+                fullWidth={true}
+                onSubmit={() => {}} 
 
                 // Update value on change
                 value={this.state.value}

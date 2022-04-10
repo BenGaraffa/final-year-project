@@ -8,6 +8,7 @@ const Films = () => {
     console.log("Films", films)
 
     return  (
+        !films.total_pages ? <p>no results found</p> : (
         !films.results.length ? <CircularProgress /> : (
             <Grid container alignItems="stretch" spacing={2} >
                 {films.results.map((film) => (
@@ -16,7 +17,7 @@ const Films = () => {
                     </Grid>
                 ))}
             </Grid>
-        )
+        ))
     );
 }
 

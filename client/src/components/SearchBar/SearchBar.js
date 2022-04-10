@@ -1,8 +1,11 @@
 import React from 'react';
 import { TextField } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { getFilms } from '../../api';
+
 
 class SearchBar extends React.Component {
-
+    
     constructor(props) {
         super(props);
         this.state = {value:''};
@@ -10,19 +13,19 @@ class SearchBar extends React.Component {
         this.onSubmit = props.onSubmit
         this.keyPress = this.keyPress.bind(this);
     }
-
+    
     // Update the 'value' prop when a change in text occurs
     changeHandle(e) {
         this.setState({value: e.target.value});
     }
-
+    
     // Check if Enter was pressed and update the state
     keyPress(e) {
         if (e.key === "Enter") {
-            this.onSubmit(e.target.value)
+            this.onSubmit(this.state);
         }
     }
-
+    
     render() {
         return  (
             <TextField 
@@ -31,7 +34,7 @@ class SearchBar extends React.Component {
                 variant="outlined" 
                 size="small"
                 fullWidth={true}
-                onSubmit={() => {}} 
+                onSubmit={(value) => {}} 
 
                 // Update value on change
                 value={this.state.value}

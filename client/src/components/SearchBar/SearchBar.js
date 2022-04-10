@@ -1,8 +1,5 @@
 import React from 'react';
 import { TextField } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { getFilms } from '../../api';
-
 
 class SearchBar extends React.Component {
     

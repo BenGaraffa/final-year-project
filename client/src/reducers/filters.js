@@ -14,29 +14,37 @@ const emptyFilters = {
 const filtersReducer = (filters = emptyFilters, action) => {
     switch (action.type) {
         case "SET_COUNTRY":
-            filters['country'] = action.payload['value'];
+            filters['country'] = action.payload;
             return filters
+
         case "SET_SERVICE":
-            filters['service'] = action.payload['value'];
+            filters['service'] = action.payload;
             return filters
+
         case "SET_TYPE":
-            filters['type'] = action.payload['value'];
+            filters['type'] = action.payload;
             return filters
+
         case "SET_GENRE":
-            filters['genre'] = action.payload['value'];
+            filters['genre'] = action.payload;
             return filters
+
         case "SET_PAGE":
-            filters['page'] = action.payload['value'];
+            filters['page'] = action.payload;
             return filters
+
         case "SET_OUTPUT_LANG":
-            filters['output_language'] = action.payload['value'];
+            filters['output_language'] = action.payload;
             return filters
+
         case "SET_LANG":
-            filters['language'] = action.payload['value'];
+            filters['language'] = action.payload;
             return filters
+            
         case "SET_KEYWORD":
             filters['keyword'] = action.payload['value'];
             return filters
+
         default:
             return filters;
     }

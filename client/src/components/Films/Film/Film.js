@@ -4,14 +4,18 @@ import { Card, CardContent, CardMedia, Typography } from '@mui/material'
 const Film = ({ film }) => {
 
     return  (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{paddingBottom: 0}}>
             <CardMedia
                 component="img"
-                height="250"
+                height="200"
                 image={film.posterURLs["185"]}
             />
-            <CardContent>
-            <Typography gutterBottom variant="body2" component="div">
+            <CardContent sx={{p:0.5}}>
+            <Typography 
+                variant="caption" 
+                component="div"
+                align='center' 
+            >
                 {film.title}
             </Typography>
             </CardContent>

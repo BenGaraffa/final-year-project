@@ -1,3 +1,3 @@
-export const setFilters = (actionType, value) => async (dispatch) => {
-        dispatch({ type: actionType, payload: value });
+export const setFilters = (actionType, value) => (dispatch) => {
+        return dispatch({ type: actionType, payload: value });
 };

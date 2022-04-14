@@ -32,6 +32,7 @@ class SearchBar extends React.Component {
                 size="small"
                 fullWidth={true}
                 onSubmit={(value) => {}} 
+                sx={{paddingBottom: 1}}
 
                 // Update value on change
                 value={this.state.value}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CircularProgress, Grid } from '@mui/material';
+import { LinearProgress, Grid } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Film from './Film/Film'
 
@@ -11,7 +11,9 @@ const Films = () => {
         films.total_pages === 0 ? 
             <p>no results found</p> 
         : (
-            !films.results.length ? <CircularProgress /> : (
+            !films.results.length ? 
+                <LinearProgress thickness={5}/> 
+            : (
                 <Grid container
                     spacing={1.5}
                     columns={12}

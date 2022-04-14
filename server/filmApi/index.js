@@ -6,8 +6,10 @@ const apiKey = require("./api-keys.json");
 // Default film search parameters
 export const options = {
         country:            "us",
-        service:            "netflix",
+        services:            "netflix",
         type:               "movie",
+        order_by:           "imdb_vote_count",
+
         genre:              "18",
         page:               "1",
         output_language:    "en",
@@ -18,7 +20,7 @@ export const options = {
 export const fetchFilms = (customOptions) => {
     return axios.request({
             method: 'GET',
-            url: 'https://streaming-availability.p.rapidapi.com/search/basic',
+            url: 'https://streaming-availability.p.rapidapi.com/search/ultra',
             params: customOptions,
             headers: {
               'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com',
@@ -26,3 +28,14 @@ export const fetchFilms = (customOptions) => {
             }
     });
 };  
+
+export const fetchCountries = () => {
+        return axios.request({
+                method: 'GET',
+                url: 'https://streaming-availability.p.rapidapi.com/countries',
+                headers: {
+                  'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com',
+                  'X-RapidAPI-Key': apiKey['filmKey']
+                }
+        });
+    };  

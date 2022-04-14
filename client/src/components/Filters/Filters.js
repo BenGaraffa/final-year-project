@@ -21,6 +21,7 @@ const Filters = ({ countries }) => {
     // React states for the components
     const [services, setServices] = useState(['netflix']);
     const [country, setCountry] = useState(filters.country);
+    const [orderBy, setOrderBy] = useState(filters.order_by);
     const [language, setLanguage] = useState(filters.language);
     
     // Change handling functions for the components
@@ -38,6 +39,10 @@ const Filters = ({ countries }) => {
     const handleCountry = (e) => {
         setCountry(e.target.value);
         dispatch(setFilters("SET_COUNTRY", e.target.value));
+    }
+    const handleOrderBy = (e) => {
+        setOrderBy(e.target.value);
+        dispatch(setFilters("SET_ORDER_BY", e.target.value));
     }
     const handleLanguage = (e) => {
         setLanguage(e.target.value);
@@ -70,7 +75,6 @@ const Filters = ({ countries }) => {
                             icon={icon}
                             checkedIcon={checkedIcon}
                             checked={selected}
-                            onClick={console.log("!!!")}
                         />
                             {option}
                     </li>
@@ -104,6 +108,28 @@ const Filters = ({ countries }) => {
             </FormControl>
 
             <FormControl sx={{ minWidth: 120 }} size="small">
+                <InputLabel> Order by </InputLabel>
+                <Select
+                    value={orderBy}
+                    label="Order by"
+                    onChange={handleOrderBy}
+                >
+                    <MenuItem key="title" value="original_title">
+                        Title
+                    </MenuItem>
+                    <MenuItem key="year" value="year">
+                        Year
+                    </MenuItem>
+                    <MenuItem key="imdbVoteCount" value="imdb_vote_count">
+                        IMDB Vote Count
+                    </MenuItem>
+                    <MenuItem key="imdbRating" value="imdb_rating">
+                        IMDB Rating
+                    </MenuItem>
+                </Select>
+            </FormControl>
+
+            <FormControl sx={{ minWidth: 120 }} size="small">
                 <InputLabel> Original Langauge </InputLabel>
                 <Select
                     value={language}
@@ -120,7 +146,7 @@ const Filters = ({ countries }) => {
                     ))}
 
                 </Select>
-                    </FormControl>
+            </FormControl>
             </>}
         </Stack>
     );

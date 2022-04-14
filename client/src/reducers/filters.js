@@ -3,8 +3,8 @@ const emptyFilters = {
     country: 'us',
     services: 'netflix',
     type: 'movie',
-    order_by: 'imdb_vote_count',
-    // genre: '',
+    order_by: 'imdb_rating',
+    genre: '',
     page: '1',
     output_language: 'en',
     language: '',
@@ -23,6 +23,10 @@ const filtersReducer = (filters = emptyFilters, action) => {
 
         case "SET_TYPE":
             filters['type'] = action.payload;
+            return filters
+
+        case "SET_ORDER_BY":
+            filters['order_by'] = action.payload;
             return filters
 
         case "SET_GENRE":

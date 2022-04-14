@@ -1,5 +1,5 @@
 import React from 'react';
-import { LinearProgress, Grid } from '@mui/material';
+import { LinearProgress, Grid, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Film from './Film/Film'
 
@@ -9,14 +9,14 @@ const Films = () => {
 
     return  (
         films.total_pages === 0 ? 
-            <p>no results found</p> 
+            <Typography variant="body2" align='center'>no results found</Typography> 
         : (
             !films.results.length ? 
                 <LinearProgress thickness={5}/> 
             : (
                 <Grid container
                     spacing={1.5}
-                    columns={12}
+                    columns={10}
                 >
                     {films.results.map((film) => (
                         <Grid 

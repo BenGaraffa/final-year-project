@@ -1,66 +1,91 @@
 import React, { useState } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, Typography, Stack } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { setFilters } from '../../actions/filters';
 
-const Filters = () => {
+import { FormControl, InputLabel, Select, MenuItem, Typography, Stack, 
+    TextField, Checkbox, Autocomplete, CircularProgress } from '@mui/material';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+
+import { setFilters } from '../../actions/filters';
+import ISO6391 from 'iso-639-1';
+import CountryLookup from 'country-code-lookup';
+
+const Filters = ({ countries }) => {
     const filters = useSelector((state) => state.filters);
+    const languageCodes = ISO6391.getAllCodes()
     const dispatch = useDispatch();
 
-    const [service, setService] = useState(filters.service)
-    const [country, setCountry] = useState(filters.country)
-    const [language, setLanguage] = useState(filters.language)
-    const [outputLanguage, setOutputLanguage] = useState(filters.output_language)
-    console.log(filters)
+    const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+    const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
+    // React states for the components
+    const [services, setServices] = useState(['netflix']);
+    const [country, setCountry] = useState(filters.country);
+    const [language, setLanguage] = useState(filters.language);
     
-    const handleService = (e) => {
-        setService(e.target.value)
-        console.log(e)
-        dispatch(setFilters("SET_SERVICE", e.target.value))
-    }
+    // Change handling functions for the components
+    const handleServices = (e, value) => {
+        if (value.length === 0) {
+            setServices(['netflix']);
+            dispatch(setFilters("SET_SERVICE", "netflix"));
+            handleCountry({target: {value: "us"}});
+        } else {
+            setServices(value);
+            dispatch(setFilters("SET_SERVICE", value.join(',')));
+            handleCountry({target: {value: countries[value[0]][0]}});
+        }
+    };
     const handleCountry = (e) => {
-        setCountry(e.target.value)
-        console.log(e)
-        dispatch(setFilters("SET_COUNTRY", e.target.value))
+        setCountry(e.target.value);
+        dispatch(setFilters("SET_COUNTRY", e.target.value));
     }
     const handleLanguage = (e) => {
-        setLanguage(e.target.value)
-        console.log(e)
-        dispatch(setFilters("SET_LANGUAGE", e.target.value))
-    }
-    const handleOutputLang = (e) => {
-        setOutputLanguage(e.target.value)
-        console.log(e)
-        dispatch(setFilters("SET_OUTPUT_LANG", e.target.value))
+        setLanguage(e.target.value);
+        dispatch(setFilters("SET_LANG", e.target.value));
     }
   
     return (
-        <Stack spacing={1}>
+        <Stack spacing={1} sx={{maxWidth: 300}}>
             <Typography 
                 variant="body1" color="initial"
             >Filters</Typography>
+            
+            {/* If data hasn't been loaded yet */}
+            {countries[services[0]] === undefined ? 
+                <CircularProgress/> 
+            : 
+            <>
 
-            <FormControl sx={{ minWidth: 120 }} size="small">
-                <InputLabel> Platform</InputLabel>
-                <Select
-                    value={service}
-                    label="Platform"
-                    onChange={handleService}
-                >
-                    <MenuItem value={"netflix"}     >Netflix</MenuItem>
-                    <MenuItem value={"prime"}       >Prime</MenuItem>
-                    <MenuItem value={"disney"}      >Disney</MenuItem>
-                    <MenuItem value={"hbo"}         >HBO</MenuItem>
-                    <MenuItem value={"hulu"}        >Hulu</MenuItem>
-                    <MenuItem value={"peacock"}     >Peacock</MenuItem>
-                    <MenuItem value={"paramount"}   >Paramount</MenuItem>
-                    <MenuItem value={"starz"}       >Starz</MenuItem>
-                    <MenuItem value={"showtime"}    >Showtime</MenuItem>
-                    <MenuItem value={"apple"}       >Apple</MenuItem>
-                    <MenuItem value={"mubi"}        >Mubi</MenuItem>
-                </Select>
-            </FormControl>
+            {/* Platform Component */}
+            <Autocomplete
+                multiple
+                value={services}
+                size='small'
+                options={Object.keys(countries)}
+                disableCloseOnSelect
+                getOptionLabel={option => option}
+                renderOption={(props, option, { selected }) => (
+                    <li {...props}>
+                        <Checkbox
+                            icon={icon}
+                            checkedIcon={checkedIcon}
+                            checked={selected}
+                            onClick={console.log("!!!")}
+                        />
+                            {option}
+                    </li>
+                )}
+                onChange={handleServices}
 
+                renderInput={(params) => (
+                    <TextField {...params} 
+                        label="Platforms" 
+                        size='small'
+                    />
+                )}
+            />
+
+            {/* Country component */}
             <FormControl sx={{ minWidth: 120 }} size="small">
                 <InputLabel> Country </InputLabel>
                 <Select
@@ -68,37 +93,35 @@ const Filters = () => {
                     label="country"
                     onChange={handleCountry}
                 >
-                    <MenuItem value={""}>
-                        <em>None</em>
-                    </MenuItem>
+
+                    {countries[services[0]].map((country) => (
+                        <MenuItem key={country} value={country}>
+                            ({country}) {CountryLookup.byIso(country)['country']}
+                        </MenuItem>
+                    ))}
+
                 </Select>
             </FormControl>
 
             <FormControl sx={{ minWidth: 120 }} size="small">
-                <InputLabel> Langauge </InputLabel>
+                <InputLabel> Original Langauge </InputLabel>
                 <Select
                     value={language}
-                    label="language"
+                    label="Original Langauge"
                     onChange={handleLanguage}
                 >
-                    <MenuItem value={""}>
+                    <MenuItem key="None" value="">
                         <em>None</em>
                     </MenuItem>
-                </Select>
-            </FormControl>
+                    {languageCodes.map((code) => (
+                        <MenuItem key={code} value={code}>
+                            ({code}) {ISO6391.getName(code)}
+                        </MenuItem>
+                    ))}
 
-            <FormControl sx={{ minWidth: 120 }} size="small">
-                <InputLabel> Output Language </InputLabel>
-                <Select
-                    value={outputLanguage}
-                    label="outputLanguage"
-                    onChange={handleOutputLang}
-                >
-                    <MenuItem value={""}>
-                        <em>None</em>
-                    </MenuItem>
                 </Select>
-            </FormControl>
+                    </FormControl>
+            </>}
         </Stack>
     );
 }

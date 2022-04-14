@@ -1,13 +1,13 @@
 
 const emptyFilters = {
     country: 'us',
-    service: 'netflix',
+    services: 'netflix',
     type: 'movie',
-
+    order_by: 'imdb_vote_count',
     // genre: '',
     page: '1',
     output_language: 'en',
-    language: 'en',
+    language: '',
     keyword: ''
 };
 
@@ -18,7 +18,7 @@ const filtersReducer = (filters = emptyFilters, action) => {
             return filters
 
         case "SET_SERVICE":
-            filters['service'] = action.payload;
+            filters['services'] = action.payload;
             return filters
 
         case "SET_TYPE":

@@ -11,6 +11,8 @@
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.1",
+    "country-code-lookup": "^0.0.20",
+    "iso-639-1": "^2.1.13",
     "moment": "^2.29.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

@@ -11,3 +11,9 @@ export const getFilms = (parameters={}) => async (dispatch) => {
         console.log(error.message);
     }
 };
+
+export const setFilmsEmpty = () => (dispatch) => {
+    dispatch({
+        type: 'EMPTY_CONTENTS'
+    })
+}

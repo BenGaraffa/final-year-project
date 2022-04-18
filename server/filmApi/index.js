@@ -5,15 +5,15 @@ const apiKey = require("./api-keys.json");
 
 // Default film search parameters
 export const options = {
-        country:            "us",
-        services:            "netflix",
-        type:               "movie",
-        order_by:           "imdb_vote_count",
+	country:            "us",
+	services:            "netflix",
+	type:               "movie",
+	order_by:           "imdb_vote_count",
 
-        genre:              "18",
-        page:               "1",
-        output_language:    "en",
-        language:           "en"
+	genre:              "18",
+	page:               "1",
+	output_language:    "en",
+	language:           "en"
 };
 
 // Fetch single page of films
@@ -29,13 +29,26 @@ export const fetchFilms = (customOptions) => {
     });
 };  
 
+// Fetch Countries data from API
 export const fetchCountries = () => {
-        return axios.request({
-                method: 'GET',
-                url: 'https://streaming-availability.p.rapidapi.com/countries',
-                headers: {
-                  'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com',
-                  'X-RapidAPI-Key': apiKey['filmKey']
-                }
-        });
-    };  
+	return axios.request({
+			method: 'GET',
+			url: 'https://streaming-availability.p.rapidapi.com/countries',
+			headers: {
+					'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com',
+					'X-RapidAPI-Key': apiKey['filmKey']
+			}
+	});
+};  
+
+// Fetch Genre data from API
+export const fetchGenres = () => {
+	return axios.request({
+			method: 'GET',
+			url: 'https://streaming-availability.p.rapidapi.com/genres',
+			headers: {
+					'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com',
+					'X-RapidAPI-Key': apiKey['filmKey']
+			}
+	});
+};  

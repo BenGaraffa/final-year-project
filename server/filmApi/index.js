@@ -4,16 +4,29 @@ const require = createRequire(import.meta.url);
 const apiKey = require("./api-keys.json");
 
 // Default film search parameters
-export const options = {
-	country:            "us",
-	services:            "netflix",
-	type:               "movie",
-	order_by:           "imdb_vote_count",
+const emptyFilters = {
+    country: 'us',
+    services: 'netflix',
+    type: 'movie',
+    order_by: 'imdb_rating',
 
-	genre:              "18",
-	page:               "1",
-	output_language:    "en",
-	language:           "en"
+    year_min: '1950',
+    year_max: new Date().getFullYear(),
+
+    page: '1',
+    desc: 'true',
+
+    genres: '',  
+    genres_relation: 'or',
+
+    min_imdb_rating: '0',
+    max_imdb_rating: '100',
+    min_imdb_vote_count: '0',
+    max_imdb_vote_count: '3000000',
+
+    language: '',
+    output_language: 'en',
+    keyword: ''
 };
 
 // Fetch single page of films

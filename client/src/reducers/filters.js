@@ -3,11 +3,24 @@ const emptyFilters = {
     country: 'us',
     services: 'netflix',
     type: 'movie',
-    order_by: 'imdb_rating',
-    genre: '',
+    
+    year_min: '1950',
+    year_max: new Date().getFullYear(),
+    
     page: '1',
-    output_language: 'en',
+    desc: 'true',
+    order_by: 'imdb_rating',
+
+    genres: '',  
+    genres_relation: 'or',
+
+    min_imdb_rating: '0',
+    max_imdb_rating: '100',
+    min_imdb_vote_count: '0',
+    max_imdb_vote_count: '3000000',
+
     language: '',
+    output_language: 'en',
     keyword: ''
 };
 

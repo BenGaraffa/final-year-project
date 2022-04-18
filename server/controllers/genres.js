@@ -4,7 +4,6 @@ export const getGenres = async (req, res) => {
     try {
         const result = await filmApi.fetchGenres(req.query)
         console.log('Genres request sent')
-        console.log(result.data)
         res.status(200).json(result.data);
     } catch (error) {
         console.log("Faild")

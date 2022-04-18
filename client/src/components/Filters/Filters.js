@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { FormControl, InputLabel, Select, MenuItem, Typography, Stack, 
-    TextField, Checkbox, Autocomplete, CircularProgress } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, 
+    Typography, Stack, TextField, Checkbox, Autocomplete, 
+    CircularProgress, FormLabel, RadioGroup, FormControlLabel,
+    Radio } from '@mui/material';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
@@ -10,7 +12,7 @@ import { setFilters } from '../../actions/filters';
 import ISO6391 from 'iso-639-1';
 import CountryLookup from 'country-code-lookup';
 
-const Filters = ({ countries }) => {
+const Filters = ({ countries, genres }) => {
     const filters = useSelector((state) => state.filters);
     const languageCodes = ISO6391.getAllCodes()
     const dispatch = useDispatch();
@@ -20,6 +22,7 @@ const Filters = ({ countries }) => {
 
     // React states for the components
     const [services, setServices] = useState(['netflix']);
+    const [type, setType] = useState(filters.type);
     const [country, setCountry] = useState(filters.country);
     const [orderBy, setOrderBy] = useState(filters.order_by);
     const [language, setLanguage] = useState(filters.language);
@@ -36,18 +39,22 @@ const Filters = ({ countries }) => {
             handleCountry({target: {value: countries[value[0]][0]}});
         }
     };
+    const handleType = (e) => {
+        setType(e.target.value);
+        dispatch(setFilters("SET_TYPE", e.target.value));
+    };
     const handleCountry = (e) => {
         setCountry(e.target.value);
         dispatch(setFilters("SET_COUNTRY", e.target.value));
-    }
+    };
     const handleOrderBy = (e) => {
         setOrderBy(e.target.value);
         dispatch(setFilters("SET_ORDER_BY", e.target.value));
-    }
+    };
     const handleLanguage = (e) => {
         setLanguage(e.target.value);
         dispatch(setFilters("SET_LANG", e.target.value));
-    }
+    };
   
     return (
         <Stack spacing={1} sx={{maxWidth: 300}}>
@@ -56,7 +63,8 @@ const Filters = ({ countries }) => {
             >Filters</Typography>
             
             {/* If data hasn't been loaded yet */}
-            {countries[services[0]] === undefined ? 
+            {countries[services[0]] === undefined 
+             || genres === undefined? 
                 <CircularProgress/> 
             : 
             <>
@@ -88,6 +96,36 @@ const Filters = ({ countries }) => {
                     />
                 )}
             />
+
+            <FormControl sx={{paddingLeft:1, paddingRight:1}}>
+                <FormLabel size='small'>Type</FormLabel>
+                <RadioGroup
+                    row
+                    value={type}
+                    onChange={handleType}
+                >
+                    <FormControlLabel 
+                        value="Movie"
+                        control={<Radio 
+                            value='movie'
+                            sx={{
+                                '& .MuiSvgIcon-root':{
+                                    fontSize:18,
+                            }}} />}  
+                        label="Movie" 
+                    />
+                    <FormControlLabel 
+                        value="TV Show"
+                        control={<Radio 
+                            value='series'
+                            sx={{
+                                '& .MuiSvgIcon-root':{
+                                    fontSize:18,
+                            }}} />} 
+                        label="TV Show" 
+                    />
+                </RadioGroup>
+            </FormControl>
 
             {/* Country component */}
             <FormControl sx={{ minWidth: 120 }} size="small">

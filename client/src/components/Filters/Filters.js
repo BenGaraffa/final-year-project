@@ -25,6 +25,7 @@ const Filters = ({ countries, genres }) => {
     const [type, setType] = useState(filters.type);
     const [country, setCountry] = useState(filters.country);
     const [orderBy, setOrderBy] = useState(filters.order_by);
+    const [descending, setDescending] = useState(filters.desc);
     const [language, setLanguage] = useState(filters.language);
     
     // Change handling functions for the components
@@ -50,6 +51,10 @@ const Filters = ({ countries, genres }) => {
     const handleOrderBy = (e) => {
         setOrderBy(e.target.value);
         dispatch(setFilters("SET_ORDER_BY", e.target.value));
+    };
+    const handleDescending = (e) => {
+        setDescending(e.target.value);
+        dispatch(setFilters("SET_DESC", e.target.value));
     };
     const handleLanguage = (e) => {
         setLanguage(e.target.value);
@@ -97,6 +102,7 @@ const Filters = ({ countries, genres }) => {
                 )}
             />
 
+            {/* Type component */}
             <FormControl sx={{paddingLeft:1, paddingRight:1}}>
                 <FormLabel size='small'>Type</FormLabel>
                 <RadioGroup
@@ -145,6 +151,7 @@ const Filters = ({ countries, genres }) => {
                 </Select>
             </FormControl>
 
+            {/* OrderBy Component */}
             <FormControl sx={{ minWidth: 120 }} size="small">
                 <InputLabel> Order by </InputLabel>
                 <Select
@@ -165,6 +172,35 @@ const Filters = ({ countries, genres }) => {
                         IMDB Rating
                     </MenuItem>
                 </Select>
+            </FormControl>
+
+            <FormControl sx={{paddingLeft:1, paddingRight:1}}>
+                <RadioGroup
+                    row
+                    value={descending}
+                    onChange={handleDescending}
+                >
+                    <FormControlLabel 
+                        value="Descending"
+                        control={<Radio 
+                            value={true}
+                            sx={{
+                                '& .MuiSvgIcon-root':{
+                                    fontSize:18,
+                            }}} />}  
+                        label="Descending" 
+                    />
+                    <FormControlLabel 
+                        value="Ascending"
+                        control={<Radio 
+                            value={false}
+                            sx={{
+                                '& .MuiSvgIcon-root':{
+                                    fontSize:18,
+                            }}} />} 
+                        label="Ascending" 
+                    />
+                </RadioGroup>
             </FormControl>
 
             <FormControl sx={{ minWidth: 120 }} size="small">

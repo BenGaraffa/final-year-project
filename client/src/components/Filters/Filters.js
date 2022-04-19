@@ -68,7 +68,7 @@ const Filters = ({ countries, genres }) => {
                 <CircularProgress/> 
             : 
             <>
-
+            
             {/* Platform Component */}
             <Autocomplete
                 multiple

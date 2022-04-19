@@ -7,7 +7,14 @@ const emptyFilters = {
     year_min: '1950',
     year_max: new Date().getFullYear(),
     
-    page: '1',
+    page: {
+		range: [3, 4],
+		startIndex: 0,
+		endIndex: 25,
+		size: 50,
+		direction: -1
+	},
+
     desc: 'true',
     order_by: 'imdb_rating',
 

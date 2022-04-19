@@ -8,11 +8,11 @@ const emptyFilters = {
     year_max: new Date().getFullYear(),
     
     page: {
-		range: [3, 4],
+		range: [1, 2],
 		startIndex: 0,
 		endIndex: 25,
-		size: 50,
-		direction: -1
+		size: 25,
+		direction: 0
 	},
 
     desc: 'true',

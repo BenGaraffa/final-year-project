@@ -152,6 +152,7 @@ export const fetchFilmsDynamic = async (customOptions) => {
 
 				totalResults.unshift(...results);
 				currentPage--;
+				console.log("!")
 				
 			} while (
 				totalResults.length - (
@@ -170,7 +171,7 @@ export const fetchFilmsDynamic = async (customOptions) => {
 
 			// setup replacement page
 			var newPageParam = clone(parameters.page);
-			newPageParam.range = [currentPage, parameters.page.range[0]];
+			newPageParam.range = [currentPage + 1, parameters.page.range[0]];
 			newPageParam.direction = 0;
 			console.log(newPageParam);
 			break;

@@ -12,7 +12,7 @@ import { setFilters } from '../../actions/filters';
 import ISO6391 from 'iso-639-1';
 import CountryLookup from 'country-code-lookup';
 
-const Filters = ({ countries, genres }) => {
+const Filters = ({ countries, genreList }) => {
     const filters = useSelector((state) => state.filters);
     const languageCodes = ISO6391.getAllCodes()
     const dispatch = useDispatch();
@@ -26,6 +26,7 @@ const Filters = ({ countries, genres }) => {
     const [country, setCountry] = useState(filters.country);
     const [orderBy, setOrderBy] = useState(filters.order_by);
     const [descending, setDescending] = useState(filters.desc);
+    const [genres, setGenres] = useState([]);
     const [language, setLanguage] = useState(filters.language);
     
     // Change handling functions for the components
@@ -56,6 +57,15 @@ const Filters = ({ countries, genres }) => {
         setDescending(e.target.value);
         dispatch(setFilters("SET_DESC", e.target.value));
     };
+    const handleGenres = (e, value) => {
+        if (value.length === 0) {
+            setGenres([]);
+            dispatch(setFilters("SET_GENRE", ''));
+        } else {
+            setGenres(value);
+            dispatch(setFilters("SET_GENRE", value.join(',')));
+        }
+    };
     const handleLanguage = (e) => {
         setLanguage(e.target.value);
         dispatch(setFilters("SET_LANG", e.target.value));
@@ -69,7 +79,7 @@ const Filters = ({ countries, genres }) => {
             
             {/* If data hasn't been loaded yet */}
             {countries[services[0]] === undefined 
-             || genres === undefined? 
+             || genreList === undefined? 
                 <CircularProgress/> 
             : 
             <>
@@ -174,6 +184,7 @@ const Filters = ({ countries, genres }) => {
                 </Select>
             </FormControl>
 
+            {/* Descending Order Component */}
             <FormControl sx={{paddingLeft:1, paddingRight:1}}>
                 <RadioGroup
                     row
@@ -202,6 +213,35 @@ const Filters = ({ countries, genres }) => {
                     />
                 </RadioGroup>
             </FormControl>
+
+            {/* Genre Component */}
+            <Autocomplete
+                multiple
+                value={genres}
+                size='small'
+                options={Object.keys(genreList)}
+                disableCloseOnSelect
+                getOptionLabel={option => genreList[option]}
+                renderOption={(props, option, { selected }) => (
+                    <li {...props}>
+                        <Checkbox
+                            icon={icon}
+                            checkedIcon={checkedIcon}
+                            checked={selected}
+                            label={genreList[option]}
+                        />
+                            {genreList[option]}
+                    </li>
+                )}
+                onChange={handleGenres}
+
+                renderInput={(params) => (
+                    <TextField {...params} 
+                        label="Genres" 
+                        size='small'
+                    />
+                )}
+            />
 
             <FormControl sx={{ minWidth: 120 }} size="small">
                 <InputLabel> Original Langauge </InputLabel>

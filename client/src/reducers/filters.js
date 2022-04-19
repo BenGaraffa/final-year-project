@@ -54,7 +54,7 @@ const filtersReducer = (filters = emptyFilters, action) => {
             return filters
 
         case "SET_GENRE":
-            filters['genre'] = action.payload;
+            filters['genres'] = action.payload;
             return filters
 
         case "SET_PAGE":

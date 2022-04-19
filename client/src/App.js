@@ -28,7 +28,7 @@ const App = () => {
         <Grid container spacing={0.5} direction="row" m={1}>
             <Grid item xs='auto' p={2}>
                 <Paper sx={{p:1}} elevation={5}>
-                    <Filters countries={countries} genres={genres}/>
+                    <Filters countries={countries} genreList={genres}/>
                 </Paper>
             </Grid>
 

@@ -29,13 +29,17 @@ const Filters = ({ countries, genreList }) => {
     const [genres, setGenres] = useState([]);
     const [genreRelation, setGenreRelation] = useState('or');
     const [language, setLanguage] = useState(filters.language);
+    const [yearSlider, setYearSlider] = React.useState([
+        parseInt(filters.year_min),
+        parseInt(filters.year_max)
+    ]);
     const [ratingSlider, setRatingSlider] = React.useState([
         parseInt(filters.min_imdb_rating),
         parseInt(filters.max_imdb_rating)
     ]);
-    const [yearSlider, setYearSlider] = React.useState([
-        parseInt(filters.year_min),
-        parseInt(filters.year_max)
+    const [voteCountSlider, setVoteCountSlider] = React.useState([
+        parseInt(filters.min_imdb_vote_count),
+        parseInt(filters.max_imdb_vote_count)
     ]);
     
     // Change handling functions for the components
@@ -101,6 +105,25 @@ const Filters = ({ countries, genreList }) => {
         }
         dispatch(setFilters("SET_MIN_RATING", ratingSlider[0].toString()))
         dispatch(setFilters("SET_MAX_RATING", ratingSlider[1].toString()))
+    };
+    const handleVoteCountSlider = (event, newValue, activeThumb) => {
+        if (!Array.isArray(newValue)) {
+            return;
+        }
+
+        if (activeThumb === 0) {
+            setVoteCountSlider(
+                [Math.min(newValue[0], voteCountSlider[1] - minSliderDistance), 
+                voteCountSlider[1]]
+            );
+        } else {
+            setVoteCountSlider(
+                [voteCountSlider[0], Math.max(newValue[1], 
+                voteCountSlider[0] + minSliderDistance)]
+            );
+        }
+        dispatch(setFilters("SET_MIN_VOTE_COUNT", voteCountSlider[0].toString()))
+        dispatch(setFilters("SET_MAX_VOTE_COUNT", voteCountSlider[1].toString()))
     };
     const handleYearSlider = (event, newValue, activeThumb) => {
         if (!Array.isArray(newValue)) {
@@ -353,7 +376,7 @@ const Filters = ({ countries, genreList }) => {
 
             {/* IMDB Rating Slider Component */}
             <FormControl  sx={{paddingLeft:2, paddingRight:2}}>
-                <FormLabel>Imdb Rating Range</FormLabel>
+                <FormLabel>IMDB Rating Range</FormLabel>
                 <Slider
                     getAriaLabel={() => 'Minimum distance'}
                     value={ratingSlider}
@@ -370,6 +393,34 @@ const Filters = ({ countries, genreList }) => {
                         {
                             value: parseInt(filters.max_imdb_rating),
                             label: filters.max_imdb_rating
+                        }
+                    ]}
+                   
+                />
+            </FormControl>
+
+            {/* IMDB Vote Count Slider Component */}
+            <FormControl  sx={{paddingLeft:2, paddingRight:2}}>
+                <FormLabel>IMDB Vote Count Range</FormLabel>
+                <Slider
+                    getAriaLabel={() => 'Minimum distance'}
+                    value={voteCountSlider}
+                    onChange={handleVoteCountSlider}
+                    valueLabelDisplay="auto"
+                    getAriaValueText={value => value}
+                    size='small'
+                    disableSwap
+                    min={0}
+                    step={100}
+                    max={3000000}
+                    marks={[
+                        {
+                            value: parseInt(filters.min_imdb_vote_count),
+                            label: filters.min_imdb_vote_count
+                        },
+                        {
+                            value: 3000000,
+                            label: '3mil',
                         }
                     ]}
                    

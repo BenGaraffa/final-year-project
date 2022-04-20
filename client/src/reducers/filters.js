@@ -77,6 +77,14 @@ const filtersReducer = (filters = emptyFilters, action) => {
             filters['max_imdb_rating'] = action.payload;
             return filters
 
+        case "SET_MIN_VOTE_COUNT":
+            filters['min_imdb_vote_count'] = action.payload;
+            return filters
+        
+        case "SET_MAX_VOTE_COUNT":
+            filters['max_imdb_vote_count'] = action.payload;
+            return filters
+
         case "SET_YEAR_MIN":
             filters['year_min'] = action.payload;
             return filters

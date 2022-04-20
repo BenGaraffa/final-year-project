@@ -5,7 +5,7 @@ const emptyFilters = {
     type: 'movie',
     
     year_min: '1950',
-    year_max: new Date().getFullYear(),
+    year_max: (new Date().getFullYear()).toString(),
     
     page: {
 		range: [1, 2],
@@ -75,6 +75,14 @@ const filtersReducer = (filters = emptyFilters, action) => {
         
         case "SET_MAX_RATING":
             filters['max_imdb_rating'] = action.payload;
+            return filters
+
+        case "SET_YEAR_MIN":
+            filters['year_min'] = action.payload;
+            return filters
+        
+        case "SET_YEAR_MAX":
+            filters['year_max'] = action.payload;
             return filters
 
         case "SET_LANG":

@@ -33,6 +33,10 @@ const Filters = ({ countries, genreList }) => {
         parseInt(filters.min_imdb_rating),
         parseInt(filters.max_imdb_rating)
     ]);
+    const [yearSlider, setYearSlider] = React.useState([
+        parseInt(filters.year_min),
+        parseInt(filters.year_max)
+    ]);
     
     // Change handling functions for the components
     const handleServices = (e, value) => {
@@ -97,6 +101,25 @@ const Filters = ({ countries, genreList }) => {
         }
         dispatch(setFilters("SET_MIN_RATING", ratingSlider[0].toString()))
         dispatch(setFilters("SET_MAX_RATING", ratingSlider[1].toString()))
+    };
+    const handleYearSlider = (event, newValue, activeThumb) => {
+        if (!Array.isArray(newValue)) {
+            return;
+        }
+
+        if (activeThumb === 0) {
+            setYearSlider(
+                [Math.min(newValue[0], yearSlider[1] - minSliderDistance), 
+                yearSlider[1]]
+            );
+        } else {
+            setYearSlider(
+                [yearSlider[0], Math.max(newValue[1], 
+                yearSlider[0] + minSliderDistance)]
+            );
+        }
+        dispatch(setFilters("SET_YEAR_MIN", yearSlider[0].toString()))
+        dispatch(setFilters("SET_YEAR_MAX", yearSlider[1].toString()))
     };
   
     return (
@@ -300,9 +323,37 @@ const Filters = ({ countries, genreList }) => {
                 </RadioGroup>
             </FormControl>
 
+            {/* Year Range */}
+            <FormControl  sx={{paddingLeft:2, paddingRight:2}}>
+                <FormLabel>Year Range</FormLabel>
+                <Slider
+                    getAriaLabel={() => 'Minimum distance'}
+                    value={yearSlider}
+                    onChange={handleYearSlider}
+                    valueLabelDisplay="auto"
+                    getAriaValueText={value => value}
+                    size='small'
+                    disableSwap
+
+                    min={1950}
+                    max={new Date().getFullYear()}
+                    marks={[
+                        {
+                            value: parseInt(filters.year_min),
+                            label: filters.year_min
+                        },
+                        {
+                            value: parseInt(filters.year_max),
+                            label: filters.year_max
+                        }
+                    ]}
+                   
+                />
+            </FormControl>
+
             {/* IMDB Rating Slider Component */}
             <FormControl  sx={{paddingLeft:2, paddingRight:2}}>
-                <FormLabel>IMDB rating</FormLabel>
+                <FormLabel>Imdb Rating Range</FormLabel>
                 <Slider
                     getAriaLabel={() => 'Minimum distance'}
                     value={ratingSlider}
@@ -311,7 +362,16 @@ const Filters = ({ countries, genreList }) => {
                     getAriaValueText={value => value}
                     size='small'
                     disableSwap
-                    marks={[{value:0, label:'0'}, {value:100, label:'100'}]}
+                    marks={[
+                        {
+                            value: parseInt(filters.min_imdb_rating),
+                            label: filters.min_imdb_rating
+                        },
+                        {
+                            value: parseInt(filters.max_imdb_rating),
+                            label: filters.max_imdb_rating
+                        }
+                    ]}
                    
                 />
             </FormControl>

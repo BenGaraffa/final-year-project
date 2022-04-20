@@ -146,7 +146,7 @@ const Filters = ({ countries, genreList }) => {
     };
   
     return (
-        <Stack spacing={1} sx={{maxWidth: 300, minWidth:300 }}>
+        <Stack spacing={1} sx={{maxWidth: 300}}>
             <Typography 
                 variant="body1" color="initial"
             >Filters</Typography>

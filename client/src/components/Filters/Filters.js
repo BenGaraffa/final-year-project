@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { FormControl, InputLabel, Select, MenuItem, 
     Typography, Stack, TextField, Checkbox, Autocomplete, 
-    CircularProgress, FormLabel, RadioGroup, FormControlLabel,
-    Radio } from '@mui/material';
+    CircularProgress, RadioGroup, FormControlLabel, Radio, Slider, FormLabel } from '@mui/material';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
@@ -19,6 +18,7 @@ const Filters = ({ countries, genreList }) => {
 
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
+    const minSliderDistance = 1;
 
     // React states for the components
     const [services, setServices] = useState(['netflix']);
@@ -27,7 +27,12 @@ const Filters = ({ countries, genreList }) => {
     const [orderBy, setOrderBy] = useState(filters.order_by);
     const [descending, setDescending] = useState(filters.desc);
     const [genres, setGenres] = useState([]);
+    const [genreRelation, setGenreRelation] = useState('or');
     const [language, setLanguage] = useState(filters.language);
+    const [ratingSlider, setRatingSlider] = React.useState([
+        parseInt(filters.min_imdb_rating),
+        parseInt(filters.max_imdb_rating)
+    ]);
     
     // Change handling functions for the components
     const handleServices = (e, value) => {
@@ -66,13 +71,36 @@ const Filters = ({ countries, genreList }) => {
             dispatch(setFilters("SET_GENRE", value.join(',')));
         }
     };
+    const handleGenreRelation = (e) => {
+        setGenreRelation(e.target.value);
+        dispatch(setFilters("SET_GENRE_RELATION", e.target.value));
+    };
     const handleLanguage = (e) => {
         setLanguage(e.target.value);
         dispatch(setFilters("SET_LANG", e.target.value));
     };
+    const handleRatingSlider = (event, newValue, activeThumb) => {
+        if (!Array.isArray(newValue)) {
+            return;
+        }
+
+        if (activeThumb === 0) {
+            setRatingSlider(
+                [Math.min(newValue[0], ratingSlider[1] - minSliderDistance), 
+                ratingSlider[1]]
+            );
+        } else {
+            setRatingSlider(
+                [ratingSlider[0], Math.max(newValue[1], 
+                ratingSlider[0] + minSliderDistance)]
+            );
+        }
+        dispatch(setFilters("SET_MIN_RATING", ratingSlider[0].toString()))
+        dispatch(setFilters("SET_MAX_RATING", ratingSlider[1].toString()))
+    };
   
     return (
-        <Stack spacing={1} sx={{maxWidth: 300}}>
+        <Stack spacing={1} sx={{maxWidth: 300, minWidth:300 }}>
             <Typography 
                 variant="body1" color="initial"
             >Filters</Typography>
@@ -114,7 +142,6 @@ const Filters = ({ countries, genreList }) => {
 
             {/* Type component */}
             <FormControl sx={{paddingLeft:1, paddingRight:1}}>
-                <FormLabel size='small'>Type</FormLabel>
                 <RadioGroup
                     row
                     value={type}
@@ -242,6 +269,52 @@ const Filters = ({ countries, genreList }) => {
                     />
                 )}
             />
+
+            {/* Genre Relation Component */}
+            <FormControl sx={{paddingLeft:1, paddingRight:1}}>
+                <RadioGroup
+                    row
+                    value={genreRelation}
+                    onChange={handleGenreRelation}
+                >
+                    <FormControlLabel 
+                        value="Inclusive"
+                        control={<Radio 
+                            value='or'
+                            sx={{
+                                '& .MuiSvgIcon-root':{
+                                    fontSize:18,
+                            }}} />}  
+                        label="Inclusive" 
+                    />
+                    <FormControlLabel 
+                        value="Exclusive"
+                        control={<Radio 
+                            value='and'
+                            sx={{
+                                '& .MuiSvgIcon-root':{
+                                    fontSize:18,
+                            }}} />} 
+                        label="Exclusive" 
+                    />
+                </RadioGroup>
+            </FormControl>
+
+            {/* IMDB Rating Slider Component */}
+            <FormControl  sx={{paddingLeft:2, paddingRight:2}}>
+                <FormLabel>IMDB rating</FormLabel>
+                <Slider
+                    getAriaLabel={() => 'Minimum distance'}
+                    value={ratingSlider}
+                    onChange={handleRatingSlider}
+                    valueLabelDisplay="auto"
+                    getAriaValueText={value => value}
+                    size='small'
+                    disableSwap
+                    marks={[{value:0, label:'0'}, {value:100, label:'100'}]}
+                   
+                />
+            </FormControl>
 
             <FormControl sx={{ minWidth: 120 }} size="small">
                 <InputLabel> Original Langauge </InputLabel>

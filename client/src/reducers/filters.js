@@ -57,12 +57,24 @@ const filtersReducer = (filters = emptyFilters, action) => {
             filters['genres'] = action.payload;
             return filters
 
+        case "SET_GENRE_RELATION":
+            filters['genres_relation'] = action.payload;
+            return filters
+
         case "SET_PAGE":
             filters['page'] = action.payload;
             return filters
 
         case "SET_OUTPUT_LANG":
             filters['output_language'] = action.payload;
+            return filters
+
+        case "SET_MIN_RATING":
+            filters['min_imdb_rating'] = action.payload;
+            return filters
+        
+        case "SET_MAX_RATING":
+            filters['max_imdb_rating'] = action.payload;
             return filters
 
         case "SET_LANG":

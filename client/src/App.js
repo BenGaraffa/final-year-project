@@ -36,9 +36,9 @@ const App = () => {
                 <Paper sx={{p:1}} elevation={5}>
                     <SearchBar
                         onSubmit={(value) => {
-                        dispatch(setFilters('SET_KEYWORD', value))
-                        dispatch(setFilmsEmpty())
-                        dispatch(getFilms(filters))
+                            dispatch(setFilters('SET_KEYWORD', value))
+                            dispatch(setFilmsEmpty())
+                            dispatch(getFilms(filters))
                         }} 
                     />
                     <Films />

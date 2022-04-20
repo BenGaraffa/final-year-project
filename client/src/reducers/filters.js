@@ -98,7 +98,7 @@ const filtersReducer = (filters = emptyFilters, action) => {
             return filters
             
         case "SET_KEYWORD":
-            filters['keyword'] = action.payload['value'];
+            filters['keyword'] = action.payload;
             return filters
 
         default:

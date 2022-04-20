@@ -1,30 +1,28 @@
-import React from 'react';
-import { TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { Stack, TextField, Button } from '@mui/material';
+import RandomButton from './RandomButton/RandomButton';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 
-class SearchBar extends React.Component {
+const SearchBar = ({onSubmit}) => {
+    const [state, setState] = useState('');
     
-    constructor(props) {
-        super(props);
-        this.state = {value:''};
-        this.changeHandle = this.changeHandle.bind(this);
-        this.onSubmit = props.onSubmit
-        this.keyPress = this.keyPress.bind(this);
+    const changeHandle = (e) => {
+        setState(e.target.value);
     }
     
-    // Update the 'value' prop when a change in text occurs
-    changeHandle(e) {
-        this.setState({value: e.target.value});
+    const submit = () => {
+        onSubmit(state)
     }
-    
+
     // Check if Enter was pressed and update the state
-    keyPress(e) {
+    const keyPress = (e) => {
         if (e.key === "Enter") {
-            this.onSubmit(this.state);
+            submit()
         }
     }
     
-    render() {
-        return  (
+    return  (
+        <Stack direction='row' sx={{paddingBottom: 1}} >
             <TextField 
                 id="search-bar" 
                 label="Search" 
@@ -32,16 +30,22 @@ class SearchBar extends React.Component {
                 size="small"
                 fullWidth={true}
                 onSubmit={(value) => {}} 
-                sx={{paddingBottom: 1}}
 
                 // Update value on change
-                value={this.state.value}
+                value={state}
                 // Submit the search on Enter
-                onKeyDown={this.keyPress}
-                onChange={this.changeHandle}
+                onKeyDown={keyPress}
+                onChange={changeHandle}
             />
-        )
-    }
+            <Button 
+                id='search-bar'
+                variant="outlined"
+                size='small'
+                sx={{margin:0}}
+                onClick={submit}
+            ><SearchRoundedIcon /></Button>
+        </Stack>
+    )
 }
 
 export default SearchBar;

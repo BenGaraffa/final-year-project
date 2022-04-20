@@ -3,13 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { FormControl, InputLabel, Select, MenuItem, 
     Typography, Stack, TextField, Checkbox, Autocomplete, 
-    CircularProgress, RadioGroup, FormControlLabel, Radio, Slider, FormLabel } from '@mui/material';
+    CircularProgress, RadioGroup, FormControlLabel, Radio, Slider, FormLabel, Button } from '@mui/material';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 import { setFilters } from '../../actions/filters';
 import ISO6391 from 'iso-639-1';
 import CountryLookup from 'country-code-lookup';
+import { getFilms, setFilmsEmpty } from '../../actions/films';
 
 const Filters = ({ countries, genreList }) => {
     const filters = useSelector((state) => state.filters);
@@ -18,7 +19,6 @@ const Filters = ({ countries, genreList }) => {
 
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
-    const minSliderDistance = 1;
 
     // React states for the components
     const [services, setServices] = useState(['netflix']);
@@ -94,13 +94,13 @@ const Filters = ({ countries, genreList }) => {
 
         if (activeThumb === 0) {
             setRatingSlider(
-                [Math.min(newValue[0], ratingSlider[1] - minSliderDistance), 
+                [Math.min(newValue[0], ratingSlider[1] - 1), 
                 ratingSlider[1]]
             );
         } else {
             setRatingSlider(
                 [ratingSlider[0], Math.max(newValue[1], 
-                ratingSlider[0] + minSliderDistance)]
+                ratingSlider[0] + 1)]
             );
         }
         dispatch(setFilters("SET_MIN_RATING", ratingSlider[0].toString()))
@@ -113,13 +113,13 @@ const Filters = ({ countries, genreList }) => {
 
         if (activeThumb === 0) {
             setVoteCountSlider(
-                [Math.min(newValue[0], voteCountSlider[1] - minSliderDistance), 
+                [Math.min(newValue[0], voteCountSlider[1] - 1), 
                 voteCountSlider[1]]
             );
         } else {
             setVoteCountSlider(
                 [voteCountSlider[0], Math.max(newValue[1], 
-                voteCountSlider[0] + minSliderDistance)]
+                voteCountSlider[0] + 1)]
             );
         }
         dispatch(setFilters("SET_MIN_VOTE_COUNT", voteCountSlider[0].toString()))
@@ -132,24 +132,40 @@ const Filters = ({ countries, genreList }) => {
 
         if (activeThumb === 0) {
             setYearSlider(
-                [Math.min(newValue[0], yearSlider[1] - minSliderDistance), 
+                [Math.min(newValue[0], yearSlider[1] - 1), 
                 yearSlider[1]]
             );
         } else {
             setYearSlider(
                 [yearSlider[0], Math.max(newValue[1], 
-                yearSlider[0] + minSliderDistance)]
+                yearSlider[0] + 1)]
             );
         }
         dispatch(setFilters("SET_YEAR_MIN", yearSlider[0].toString()))
         dispatch(setFilters("SET_YEAR_MAX", yearSlider[1].toString()))
     };
+
+    const handleApply = () => {
+        dispatch(setFilmsEmpty())
+        dispatch(getFilms(filters))
+    };
   
     return (
         <Stack spacing={1} sx={{maxWidth: 300}}>
-            <Typography 
-                variant="body1" color="initial"
-            >Filters</Typography>
+            <Stack 
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+            >
+                <Typography 
+                    variant="body1" color="initial"
+                >
+                    Filters
+                </Typography>
+                <Button onClick={handleApply} >
+                    Apply
+                </Button>
+            </Stack>
             
             {/* If data hasn't been loaded yet */}
             {countries[services[0]] === undefined 

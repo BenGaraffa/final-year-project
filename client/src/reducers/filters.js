@@ -12,7 +12,7 @@ const emptyFilters = {
 		startIndex: 0,
 		endIndex: 25,
 		size: 25,
-		direction: 1
+		direction: 0
 	},
 
     desc: 'true',

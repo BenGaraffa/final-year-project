@@ -152,7 +152,6 @@ export const fetchFilmsDynamic = async (customOptions) => {
 
 				totalResults.unshift(...results);
 				currentPage--;
-				console.log("!")
 				
 			} while (
 				totalResults.length - (

@@ -3,6 +3,7 @@ import { LinearProgress, Grid, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Film from './Film/Film'
 import PageController from './PageController/PageController'
+import RandomButton from './RandomButton/RandomButton';
 
 const Films = () => {
     const films = useSelector((state) => state.films);
@@ -16,6 +17,7 @@ const Films = () => {
                 <LinearProgress thickness={5}/> 
             : (
                 <>
+                <RandomButton total_pages={films.total_pages}/>
                 <PageController films={films} />
                 <Grid container
                     spacing={1.5}

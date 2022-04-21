@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Stack, TextField, Button } from '@mui/material';
-import RandomButton from './RandomButton/RandomButton';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 
 const SearchBar = ({onSubmit}) => {

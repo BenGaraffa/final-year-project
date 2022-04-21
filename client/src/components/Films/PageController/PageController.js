@@ -1,4 +1,4 @@
-import { Stack, Pagination, Container } from '@mui/material';
+import { Pagination } from '@mui/material';
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getFilms, setFilmsEmpty } from '../../../actions/films';

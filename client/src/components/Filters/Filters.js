@@ -29,30 +29,46 @@ const Filters = ({ countries, genreList }) => {
     const [genres, setGenres] = useState([]);
     const [genreRelation, setGenreRelation] = useState('or');
     const [language, setLanguage] = useState(filters.language);
-    const [yearSlider, setYearSlider] = React.useState([
+    const [yearSlider, setYearSlider] = useState([
         parseInt(filters.year_min),
         parseInt(filters.year_max)
     ]);
-    const [ratingSlider, setRatingSlider] = React.useState([
+    const [ratingSlider, setRatingSlider] = useState([
         parseInt(filters.min_imdb_rating),
         parseInt(filters.max_imdb_rating)
     ]);
-    const [voteCountSlider, setVoteCountSlider] = React.useState([
+    const [voteCountSlider, setVoteCountSlider] = useState([
         parseInt(filters.min_imdb_vote_count),
         parseInt(filters.max_imdb_vote_count)
     ]);
+    const [viewableCountries, setVieableCountries] = useState(['us'])
     
+    const updateViewableCountries = () => {
+        let tempCountryList = new Set()
+        let tempServiceList = filters.services.split(',')
+        for (let i of tempServiceList) {
+            countries[i].forEach(j => tempCountryList.add(j))
+        }
+        console.log([...tempCountryList])
+        setVieableCountries([...tempCountryList].sort())
+    }
+
     // Change handling functions for the components
     const handleServices = (e, value) => {
         if (value.length === 0) {
-            setServices(['netflix']);
-            dispatch(setFilters("SET_SERVICE", "netflix"));
+            setServices([]);
+            dispatch(setFilters(
+                "SET_SERVICE", 
+                Object.keys(countries).join(',')));
+            console.log(Object.keys(countries).join(','))
+            console.log(countries)
             handleCountry({target: {value: "us"}});
         } else {
             setServices(value);
             dispatch(setFilters("SET_SERVICE", value.join(',')));
             handleCountry({target: {value: countries[value[0]][0]}});
         }
+       updateViewableCountries()
     };
     const handleType = (e) => {
         setType(e.target.value);
@@ -168,9 +184,9 @@ const Filters = ({ countries, genreList }) => {
             </Stack>
             
             {/* If data hasn't been loaded yet */}
-            {countries[services[0]] === undefined 
+            {viewableCountries === undefined 
              || genreList === undefined? 
-                <CircularProgress/> 
+                <CircularProgress /> 
             : 
             <>
             
@@ -241,7 +257,7 @@ const Filters = ({ countries, genreList }) => {
                     onChange={handleCountry}
                 >
 
-                    {countries[services[0]].map((country) => (
+                    {viewableCountries.map((country) => (
                         <MenuItem key={country} value={country}>
                             ({country}) {CountryLookup.byIso(country)['country']}
                         </MenuItem>

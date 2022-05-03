@@ -8,12 +8,12 @@ export const getSearch = async (req, res) => {
         }
 
         // Request films from the API
-        const results = await filmApi.fetchFilms(req.query);
+        const results = await filmApi.fetchFilmsDynamic(req.query);
         
-        console.log('Request sent')
-        res.status(200).json(results.data); //.data); For when actual request is asked
+        console.log('Film request sent')
+        res.status(200).json(results); 
     } catch (error) {
-        console.log("Faild")
+        console.log("Faild", error.message)
         res.status(404).send(error.message);
     }
 }

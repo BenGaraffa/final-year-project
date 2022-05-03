@@ -64,7 +64,7 @@ const RandomButton = ({ total_pages }) => {
                     fullWidth
                     onClick={handleClick}
                 >
-                    Give me something to watch
+                    Find me something to watch
                 </Button>  
             </Grid>
             

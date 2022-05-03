@@ -3,9 +3,19 @@ import { ButtonBase, Card, CardMedia, Dialog, DialogContent, DialogTitle,
     Slide, Typography, Grid, DialogContentText, Button, DialogActions} from '@mui/material'
 
 // Transition animation used
-const Transition = React.forwardRef(function Transition(props, ref) {
+export const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" unmountOnExit ref={ref} {...props} />;
 });
+
+// Parse poster urls in the event of missing entries
+export const posterSelection = (urlObject) => {
+    var sizePrecidence = ["185", "154", "92", "342", "500", "700", "original"]
+    for (let size of sizePrecidence) {
+        if (urlObject[size] !== undefined) {
+            return urlObject[size]
+        }
+    }
+}
 
 const Film = ({ film }) => {
     const [open, setOpen] = useState(false);
@@ -28,7 +38,7 @@ const Film = ({ film }) => {
                 <CardMedia
                     component="img"
                     height="200"
-                    image={film.posterURLs["185"]}
+                    image={posterSelection(film.posterURLs)}
                 />
             </ButtonBase>
             <Typography 
@@ -65,7 +75,7 @@ const Film = ({ film }) => {
                     <Grid item xs='25%'>
                         <Card >
                             <CardMedia 
-                                image={film.posterURLs["185"]} 
+                                image={posterSelection(film.posterURLs)} 
                                 component='img'
                             />
                         </Card>

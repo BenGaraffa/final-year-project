@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { getRandomFilm } from '../../../api'
 import { useSelector } from 'react-redux';
 import clone from 'just-clone';
+import { posterSelection, Transition } from '../Film/Film';
 
 // Random int range function
 const getRandomInt = (min, max) => {
@@ -13,18 +14,13 @@ const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Transition animation used
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" unmountOnExit ref={ref} {...props} />;
-});
-
 const RandomButton = ({ total_pages }) => {
     const [range, setRange] = useState(25);
     const [open, setOpen] = useState(false);
     const filters = useSelector(state => state.filters);
     const films = useSelector(state => state.films);
     const [film, setFilm] = useState(
-        films.results[getRandomInt(0, films.results.length-1)]);
+        films.results[getRandomInt(0, films.results.length-1)]);    
 
     const handleRange = (e) => {
         setRange(e.target.value);
@@ -34,6 +30,7 @@ const RandomButton = ({ total_pages }) => {
         if (range === 25) {
             // Get a random film from the page already loaded
             setFilm(films.results[getRandomInt(0, films.results.length-1)])
+            // Select the right poster size
             setOpen(true);
         } else { //Load random film from requested range
             
@@ -127,7 +124,7 @@ const RandomButton = ({ total_pages }) => {
                     <Grid item xs='25%'>
                         <Card >
                             <CardMedia 
-                                image={film.posterURLs["185"]} 
+                                image={posterSelection(film.posterURLs)} 
                                 component='img'
                             />
                         </Card>

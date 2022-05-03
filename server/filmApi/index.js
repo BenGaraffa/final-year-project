@@ -208,3 +208,28 @@ export const fetchGenres = () => {
 			}
 	});
 };  
+
+function getRandomInt(min, max) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export const fetchRandom = async (receivedParams) => {
+	var parameters = parseParameters(receivedParams);
+
+	var request = {
+		method: 'GET',
+		url: 'https://streaming-availability.p.rapidapi.com/search/ultra',
+		params: parameters,
+		headers: {
+		  'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com',
+		  'X-RapidAPI-Key': apiKey['filmKey']
+		}
+	};
+
+	// request random film
+	let response = (await axios.request(request)).data.results;
+
+	return response[getRandomInt(0, response.length)] // return random film
+}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ButtonBase, Card, CardMedia, Dialog, DialogContent, DialogTitle, 
-    Slide, Typography, Grid, DialogContentText, CardContent, Button, DialogActions} from '@mui/material'
+    Slide, Typography, Grid, DialogContentText, Button, DialogActions} from '@mui/material'
 
 // Transition animation used
 const Transition = React.forwardRef(function Transition(props, ref) {

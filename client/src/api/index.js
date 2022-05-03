@@ -16,3 +16,15 @@ export const getCountries = () => {
 export const getGenres = () => {
     return axios.get(url + '/genres')
 };
+
+export const getRandomFilm = async (parameters={}) => {
+    try {
+        const { data } = await axios.get(
+            url + '/random',
+            {params: parameters}
+        );
+        return data
+    } catch (error) {
+       console.log(error.message) 
+    }
+};

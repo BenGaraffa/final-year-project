@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import searchRoutes from './routes/search.js'
 import countriesRoutes from './routes/countries.js'
 import genresRoutes from './routes/genres.js'
+import randomRoutes from './routes/random.js'
 
 // To create the require function used in CommonJS for NodeJS
 import { createRequire } from "module"; 
@@ -22,6 +23,7 @@ app.use(cors());
 app.use('/search', searchRoutes);
 app.use('/countries', countriesRoutes);
 app.use('/genres', genresRoutes);
+app.use('/random', randomRoutes);
 
 // Database connection 
 const DATABASE_URL = `mongodb+srv://${username}:${password}@cluster0.qbmxu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
